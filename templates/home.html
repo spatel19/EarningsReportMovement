@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<meta http-equiv="refresh" content="180">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<style type="text/css">
+  #canvas-holder {
+    background-color: #FFFFFF;
+    position: relative;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    margin-left: 5vw;
+  }
+</style>
+
+
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-md bg-light">
+      <div class="container">
+        <a class="navbar-brand mr-4" href="/">Flask Finance</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+          </div>
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+          </div>
+          <div class="navbar-nav ">
+            <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <center>
+    <h1 style="color: black;">3 Largest Companies Earnings Today</h1>
+  </center>
+  <div id="canvas-holder" style="width: 80vw; height:40vh">
+    <canvas id="myChart"></canvas>
+  </div>
+  <div id="canvas-holder" style="width: 80vw; height:40vh">
+    <canvas id="myChart1"></canvas>
+  </div>
+  <div id="canvas-holder" style="width: 80vw; height:40vh">
+    <canvas id="myChart2"></canvas>
+  </div>
+
+  <script>
+    var Labels = [
+      [],
+      [],
+      []
+    ]
+    var Values = [
+      [],
+      [],
+      []
+    ]
+
+    // var url = "http://anyorigin.com/go?url=" + encodeURIComponent("https://api.earningscalendar.net/") + '&callback=?';
+    // $.get(url, function(response) {
+    //   console.log(response);
+    // });
+
+
+    $.ajax({
+      async: false,
+      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{firstStock}}' + "&interval=60min&apikey=2M4VL8FDSR2RHP7O",
+      contentType: "application/json",
+      dataType: 'json',
+      success: function(result) {
+        var CleanData = {}
+        for (key in result["Time Series (60min)"]) {
+          CleanData[key] = result["Time Series (60min)"][key]["1. open"]
+        }
+
+        for (x in CleanData) {
+          Labels[0].push(x)
+          Values[0].push(CleanData[x])
+          console.log("here0")
+
+        }
+        console.log("Finish0")
+
+      }
+    });
+
+    $.ajax({
+      async: false,
+      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{secondStock}}' + "&interval=60min&apikey=2M4VL8FDSR2RHP7O",
+      contentType: "application/json",
+      dataType: 'json',
+      success: function(result) {
+        var CleanData = {}
+        for (key in result["Time Series (60min)"]) {
+          CleanData[key] = result["Time Series (60min)"][key]["1. open"]
+        }
+
+        for (x in CleanData) {
+          Labels[1].push(x)
+          Values[1].push(CleanData[x])
+          console.log("here1")
+        }
+        console.log("Finish1")
+
+      }
+    });
+
+    $.ajax({
+      async: false,
+      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{thirdStock}}' + "&interval=60min&apikey=2M4VL8FDSR2RHP7O",
+      contentType: "application/json",
+      dataType: 'json',
+      success: function(result) {
+        var CleanData = {}
+        for (key in result["Time Series (60min)"]) {
+          CleanData[key] = result["Time Series (60min)"][key]["1. open"]
+        }
+
+        for (x in CleanData) {
+          Labels[2].push(x)
+          Values[2].push(CleanData[x])
+          console.log("here2")
+
+        }
+        console.log("Finish2")
+      }
+    });
+
+    console.log(Labels)
+
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: Labels[0].reverse(),
+        datasets: [{
+          label: '{{firstStock}} ' + 'Hourly Price Data',
+          data: Values[0].reverse(),
+          borderWidth: 1,
+          borderColor: "#3e95cd",
+          backgroundColor: "#3e95cd",
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {}
+          }]
+        }
+      }
+    });
+
+    var ctx1 = document.getElementById('myChart1').getContext('2d');
+    var myChart1 = new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: Labels[1].reverse(),
+        datasets: [{
+          label: '{{secondStock}} ' + 'Hourly Price Data',
+          data: Values[1].reverse(),
+          borderWidth: 1,
+          borderColor: "red",
+          backgroundColor: "red",
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {}
+          }]
+        }
+      }
+    });
+
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+    var myChart2 = new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: Labels[2].reverse(),
+        datasets: [{
+          label: '{{thirdStock}} ' + 'Hourly Price Data',
+          data: Values[2].reverse(),
+          borderWidth: 1,
+          borderColor: "green",
+          backgroundColor: "green",
+          fill: false
+
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      }
+    });
+  </script>
+</body>
+
+</html>
