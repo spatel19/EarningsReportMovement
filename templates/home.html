@@ -113,15 +113,9 @@
       []
     ]
 
-    // var url = "http://anyorigin.com/go?url=" + encodeURIComponent("https://api.earningscalendar.net/") + '&callback=?';
-    // $.get(url, function(response) {
-    //   console.log(response);
-    // });
-
-
     $.ajax({
       async: false,
-      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{firstStock}}' + "&interval=60min&apikey=2M4VL8FDSR2RHP7O",
+      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{firstStock}}' + "&interval=60min&apikey=" + '{{apiKey}}',
       contentType: "application/json",
       dataType: 'json',
       success: function(result) {
@@ -143,7 +137,7 @@
 
     $.ajax({
       async: false,
-      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{secondStock}}' + "&interval=60min&apikey=2M4VL8FDSR2RHP7O",
+      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{secondStock}}' + "&interval=60min&apikey=" + '{{apiKey}}',
       contentType: "application/json",
       dataType: 'json',
       success: function(result) {
