@@ -29,6 +29,7 @@
     color: black;
   }
 
+
   @media screen and (min-width: 601px) {
     div.titletext {
       font-size: 80px;
@@ -49,7 +50,7 @@
   <header class="site-header">
     <nav class="navbar navbar-expand-lg" style="background-color: cornsilk;">
       <!-- <div class="container"> -->
-      <a class="navbar-brand mr-4" href="/">Flask Finance</a>
+      <a class="navbar-brand mr-4" href="{{ url_for('home') }}">Flask Finance</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false">
           <title>Menu</title>
@@ -57,17 +58,13 @@
         </svg>
       </button>
       <div class="collapse navbar-collapse" id="navbarToggle">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-        </div>
-        <!-- <div class="navbar-nav">
-          <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
-        </div>
-        <div class="navbar-nav ">
-          <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
-        </div> -->
+
         <ul class="navbar-nav ml-md-auto"></ul>
+        {% if loggedIn == True %}
+        <a class="btn d-lg-inline-block mb-3 mb-md-0 ml-md-3" style="border: 3px solid black;" href="{{ url_for('logout') }}">Log Out</a>
+        {% else %}
         <a class="btn d-lg-inline-block mb-3 mb-md-0 ml-md-3" style="border: 3px solid black;" href="{{ url_for('login') }}">Log In</a>
+        {% endif %}
         <!-- </div> -->
       </div>
     </nav>
@@ -83,15 +80,24 @@
   {% endwith %}
 
   <center>
-    <div class="titletext" style="color: black;">Largest Company Earnings Today</div>
+    <div class="titletext" style="color: black;">Vote Today's Top Corporate Earnings</div>
   </center>
   <div id="canvas-holder" style="width: 80vw; height:40vh">
+    <div style="position:absolute; right:0; font-size: 10px; z-index: 1; color: green;">
+      <h1>{{firstCount}}</h1>
+    </div>
     <canvas id="myChart"></canvas>
   </div>
   <div id="canvas-holder" style="width: 80vw; height:40vh">
+    <div style="position:absolute; right:0; font-size: 10px; z-index: 1; color: green;">
+      <h1>{{secondCount}}</h1>
+    </div>
     <canvas id="myChart1"></canvas>
   </div>
   <div id="canvas-holder" style="width: 80vw; height:40vh">
+    <div style="position:absolute; right:0; font-size: 10px; z-index: 1; color: green;">
+      <h1>{{thirdCount}}</h1>
+    </div>
     <canvas id="myChart2"></canvas>
   </div>
 

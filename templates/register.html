@@ -3,11 +3,63 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   <title></title>
 </head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<style type="text/css">
+  a {
+    color: black;
+  }
+</style>
 
 <body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" style="background-color: cornsilk;">
+      <!-- <div class="container"> -->
+      <a class="navbar-brand mr-4" href="{{ url_for('home') }}">Flask Finance</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false">
+          <title>Menu</title>
+          <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path>
+        </svg>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggle">
+        <!-- <div class="navbar-nav">
+          <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+        </div> -->
+        <!-- <div class="navbar-nav">
+          <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+        </div>
+        <div class="navbar-nav ">
+          <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+        </div> -->
+        <ul class="navbar-nav ml-md-auto"></ul>
+        {% if loggedIn == True %}
+        <a class="btn d-lg-inline-block mb-3 mb-md-0 ml-md-3" style="border: 3px solid black;" href="{{ url_for('logout') }}">Log Out</a>
+        {% else %}
+        <a class="btn d-lg-inline-block mb-3 mb-md-0 ml-md-3" style="border: 3px solid black;" href="{{ url_for('login') }}">Log In</a>
+        {% endif %}
+        <!-- </div> -->
+      </div>
+    </nav>
+  </header>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
   <div class="container">
     <div class="content-section">
       <form method="POST" action="">
