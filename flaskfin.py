@@ -9,6 +9,9 @@ from pprint import pprint
 from bson.son import SON
 from datetime import date, time, timedelta
 import datetime
+import os
+from cred import mongoConnectionString, API_KEY
+
 
 url = ("https://finviz.com/screener.ashx?v=161&f=earningsdate_todayafter&o=-marketcap")
 
@@ -30,7 +33,7 @@ app.config['SECRET_KEY'] = '98924a7113635b13fda543163bb92337'
 class Connect(object):
     @staticmethod
     def get_connection():
-        return MongoClient("mongodb+srv://smeetp:letscode11@earningapp-prlhu.mongodb.net/test?retryWrites=true&w=majority")
+        return MongoClient(mongoConnectionString)
 
 connection = Connect.get_connection()
 
@@ -66,7 +69,7 @@ def home():
     else:
         loggedin = False
     return render_template('home.html', firstStock = firststk, secondStock = secondstk, thirdStock = thirdstk, loggedIn = loggedin,
-     firstCount=firstcount, secondCount=secondcount, thirdCount=thirdcount)
+     firstCount=firstcount, secondCount=secondcount, thirdCount=thirdcount, apiKey=API_KEY)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():

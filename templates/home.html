@@ -164,7 +164,7 @@
 
     $.ajax({
       async: false,
-      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{thirdStock}}' + "&interval=60min&apikey=2M4VL8FDSR2RHP7O",
+      url: "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + '{{thirdStock}}' + "&interval=60min&apikey=" + '{{apiKey}}',
       contentType: "application/json",
       dataType: 'json',
       success: function(result) {
